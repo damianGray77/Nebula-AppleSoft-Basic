@@ -1,68 +1,46 @@
-10 HGR : HGR2 
-12 SZ = 50 : CX = 140 : CY = 96
-15 SC = 0
-18 ANGLE = 0
-20 DIM PTS(7,2)
-25 DIM RZP(7,2) : DIM RYP(7,2) : DIM RXP(7,2)
-30 GOSUB 5000
+0000 GOTO 1000
+0010 FOR F = 0 TO FS
+0020    CALL 62450
+0030    HPLOT SX(F, 0), SY(F, 0) TO SX(F, 1), SY(F, 1)
+0040    HPLOT SX(F, 1), SY(F, 1) TO SX(F, 2), SY(F, 2)
+0050    HPLOT SX(F, 2), SY(F, 2) TO SX(F, 3), SY(F, 3)
+0060    HPLOT SX(F, 3), SY(F, 3) TO SX(F, 0), SY(F, 0)
+0070    HPLOT SX(F, 4), SY(F, 4) TO SX(F, 5), SY(F, 5)
+0080    HPLOT SX(F, 5), SY(F, 5) TO SX(F, 6), SY(F, 6)
+0090    HPLOT SX(F, 6), SY(F, 6) TO SX(F, 7), SY(F, 7)
+0100    HPLOT SX(F, 7), SY(F, 7) TO SX(F, 4), SY(F, 4)
+0110    HPLOT SX(F, 0), SY(F, 0) TO SX(F, 4), SY(F, 4)
+0120    HPLOT SX(F, 1), SY(F, 1) TO SX(F, 5), SY(F, 5)
+0130    HPLOT SX(F, 2), SY(F, 2) TO SX(F, 6), SY(F, 6)
+0140    HPLOT SX(F, 3), SY(F, 3) TO SX(F, 7), SY(F, 7)
+0150    SC = NOT SC
+0160    POKE 49236 + NOT SC, 0
+0170    POKE 230, 32 + 32 * SC
+0180 NEXT F
+0190 GOTO 10
 
-100 REM DRAW LOOP
-105 CALL 62450
-110 GOSUB 2000 : REM ROTATE POINTS
-120 GOSUB 6000 : REM LINES
-140 ANGLE = ANGLE + 0.1
-150 GOSUB 1000
-160 GOTO 100
-
-500 X1 = RYP(A,0) * SZ + CX
-510 Y1 = RYP(A,1) * SZ + CY
-520 X2 = RYP(B,0) * SZ + CX
-530 Y2 = RYP(B,1) * SZ + CY
-535 HCOLOR=3
-540 HPLOT X1,Y1 TO X2,Y2
-550 RETURN 
-
-1000 SC = NOT SC
-1010 POKE 49236 + NOT SC,0
-1020 POKE 230,32 + 32 * SC
-1030 RETURN 
-
-2000 CS = COS(ANGLE)
-2010 SN = SIN(ANGLE)
-2020 FOR N = 0 TO 7
-2030 RZP(N,0) = -CS * PTS(N,0) + SN * PTS(N,1) +  0 * PTS(N,2)
-2040 RZP(N,1) =  SN * PTS(N,0) + CS * PTS(N,1) +  0 * PTS(N,2)
-2050 RZP(N,2) =   0 * PTS(N,0) +  0 * PTS(N,1) +  1 * PTS(N,2)
-2060 RYP(N,0) =  CS * RZP(N,0) +  0 * RZP(N,1) + SN * RZP(N,2)
-2070 RYP(N,1) =   0 * RZP(N,0) +  1 * RZP(N,1) +  0 * RZP(N,2)
-2080 RYP(N,2) = -SN * RZP(N,0) +  0 * RZP(N,1) + CS * RZP(N,2)
-2090 RXP(N,0) =  RYP(N,0)
-2100 RXP(N,1) =  CS * RYP(N,1) - SN * RYP(N,2)
-2110 RXP(N,2) =  SN * RYP(N,1) + CS * RYP(N,2)
-2120 NEXT N
-2130 RETURN 
-
-5000 PTS(0,0) = -1: PTS(0,1) = -1 : PTS(0,2) = -1
-5010 PTS(1,0) =  1: PTS(1,1) = -1 : PTS(1,2) = -1
-5020 PTS(2,0) =  1: PTS(2,1) =  1 : PTS(2,2) = -1
-5030 PTS(3,0) = -1: PTS(3,1) =  1 : PTS(3,2) = -1
-5040 PTS(4,0) = -1: PTS(4,1) = -1 : PTS(4,2) =  1
-5050 PTS(5,0) =  1: PTS(5,1) = -1 : PTS(5,2) =  1
-5060 PTS(6,0) =  1: PTS(6,1) =  1 : PTS(6,2) =  1
-5070 PTS(7,0) = -1: PTS(7,1) =  1 : PTS(7,2) =  1
-5080 RETURN 
-
-6000 REM DRAW LINES
-6010 A = 0 : B = 1 : GOSUB 500
-6020 A = 1 : B = 2 : GOSUB 500
-6030 A = 2 : B = 3 : GOSUB 500
-6040 A = 3 : B = 0 : GOSUB 500
-6050 A = 4 : B = 5 : GOSUB 500
-6060 A = 5 : B = 6 : GOSUB 500
-6070 A = 6 : B = 7 : GOSUB 500
-6080 A = 7 : B = 4 : GOSUB 500
-6090 A = 0 : B = 4 : GOSUB 500
-6100 A = 1 : B = 5 : GOSUB 500
-6110 A = 2 : B = 6 : GOSUB 500
-6120 A = 3 : B = 7 : GOSUB 500
-6130 RETURN 
+1000 SZ = 50 : CX = 140 : CY = 96
+1010 SC = 0
+1020 A = 0 : F = 0 : FS = 719 : AD = 6.2832 / (FS + 1)
+1030 DIM PX(7) : DIM PY(7) : DIM PZ(7)
+1040 PX(0) = -1: PY(0) = -1 : PZ(0) = -1
+1050 PX(1) =  1: PY(1) = -1 : PZ(1) = -1
+1060 PX(2) =  1: PY(2) =  1 : PZ(2) = -1
+1070 PX(3) = -1: PY(3) =  1 : PZ(3) = -1
+1080 PX(4) = -1: PY(4) = -1 : PZ(4) =  1
+1090 PX(5) =  1: PY(5) = -1 : PZ(5) =  1
+1100 PX(6) =  1: PY(6) =  1 : PZ(6) =  1
+1110 PX(7) = -1: PY(7) =  1 : PZ(7) =  1
+1120 DIM SX(FS, 7) : DIM SY(FS, 7)
+1130 FOR I = 0 TO FS
+1140    C = COS(A) : S = SIN(A)
+1150    FOR N = 0 TO 7
+1160       SX(I, N) = (C * (-C * PX(N) + S * PY(N)) + S * PZ(N)) * SZ + CX
+1170       SY(I, N) = (S * PX(N) + C * PY(N)) * SZ + CY
+1180    NEXT N
+1190    A = A + AD
+1200 NEXT I
+1210 A = 0
+1220 HGR : HGR2 
+1230 HCOLOR = 3
+1240 GOTO 10
